@@ -3358,7 +3358,6 @@
     <!-- http://www.co-ode.org/ontologies/ont.owl#Apple -->
 
     <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Apple">
-        <rdfs:subClassOf rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
         <rdfs:subClassOf rdf:resource="http://www.co-ode.org/ontologies/ont.owl#Chipset"/>
     </Class>
     
@@ -3904,14 +3903,6 @@
     
 
 
-    <!-- http://www.co-ode.org/ontologies/ont.owl#Google -->
-
-    <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Google">
-        <rdfs:subClassOf rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
-    </Class>
-    
-
-
     <!-- http://www.co-ode.org/ontologies/ont.owl#Google_Pixel_4 -->
 
     <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Google_Pixel_4">
@@ -4422,14 +4413,6 @@
 
     <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Helio">
         <rdfs:subClassOf rdf:resource="http://www.co-ode.org/ontologies/ont.owl#Chipset"/>
-    </Class>
-    
-
-
-    <!-- http://www.co-ode.org/ontologies/ont.owl#Huawei -->
-
-    <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Huawei">
-        <rdfs:subClassOf rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
     </Class>
     
 
@@ -5949,14 +5932,6 @@
     
 
 
-    <!-- http://www.co-ode.org/ontologies/ont.owl#OnePlus -->
-
-    <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#OnePlus">
-        <rdfs:subClassOf rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
-    </Class>
-    
-
-
     <!-- http://www.co-ode.org/ontologies/ont.owl#OnePlus_10 -->
 
     <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#OnePlus_10">
@@ -6561,14 +6536,6 @@
                 </onClass>
             </Restriction>
         </rdfs:subClassOf>
-    </Class>
-    
-
-
-    <!-- http://www.co-ode.org/ontologies/ont.owl#Poco -->
-
-    <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Poco">
-        <rdfs:subClassOf rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
     </Class>
     
 
@@ -7577,14 +7544,6 @@
     <!-- http://www.co-ode.org/ontologies/ont.owl#RAM -->
 
     <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#RAM"/>
-    
-
-
-    <!-- http://www.co-ode.org/ontologies/ont.owl#Samsung -->
-
-    <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Samsung">
-        <rdfs:subClassOf rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
-    </Class>
     
 
 
@@ -8891,14 +8850,6 @@
 
     <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Unisoc">
         <rdfs:subClassOf rdf:resource="http://www.co-ode.org/ontologies/ont.owl#Chipset"/>
-    </Class>
-    
-
-
-    <!-- http://www.co-ode.org/ontologies/ont.owl#Xiaomi -->
-
-    <Class rdf:about="http://www.co-ode.org/ontologies/ont.owl#Xiaomi">
-        <rdfs:subClassOf rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
     </Class>
     
 
@@ -12666,29 +12617,6 @@
         <gr:description>
             VGhlIFNldmVuIE5vYWhpZGUgTGF3cw0KMS4gQmVsaWVmIGluIEctZA0KMi4gUmVzcGVjdCBHLWQgYW5kIHByYWlzZSBoaW0NCjMuIFJlc3BlY3QgaHVtYW4gbGlmZQ0KNC4gUmVzcGVjdCB0aGUgZmFtaWx5DQo1LiBSZXNwZWN0IGh1bWFuIGJlaW5ncw0KNi4gSGF2ZSBhIGp1ZGljaWFsIHN5c3RlbQ0KNy4gUmVzcGVjdCBhbGwgY3JlYXR1cmVz
         </gr:description>
-    </rdf:Description>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // General axioms
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.co-ode.org/ontologies/ont.owl#Apple"/>
-            <rdf:Description rdf:about="http://www.co-ode.org/ontologies/ont.owl#Google"/>
-            <rdf:Description rdf:about="http://www.co-ode.org/ontologies/ont.owl#Huawei"/>
-            <rdf:Description rdf:about="http://www.co-ode.org/ontologies/ont.owl#OnePlus"/>
-            <rdf:Description rdf:about="http://www.co-ode.org/ontologies/ont.owl#Poco"/>
-            <rdf:Description rdf:about="http://www.co-ode.org/ontologies/ont.owl#Samsung"/>
-            <rdf:Description rdf:about="http://www.co-ode.org/ontologies/ont.owl#Xiaomi"/>
-        </members>
     </rdf:Description>
 </rdf:RDF>
 
