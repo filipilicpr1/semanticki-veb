@@ -99,7 +99,6 @@ for link in links:
                         
                     if title == "RAM":
                         ram = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-
                         
                     if title == "Operativni":
                         os = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
