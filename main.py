@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from Phone import Phone
 
 BASE_URL = "https://mobilnisvet.com"
 
@@ -51,6 +52,8 @@ for base_link in BASE_LINKS:
         except:
             driver.close()
 
+listOfPhones = []
+
 for link in links:
     while True:
         try:
@@ -60,19 +63,51 @@ for link in links:
             soup = BeautifulSoup(driver.page_source, features="html.parser")
 
             spec = soup.find('div', id="specification")
+
             segments = spec.find_all('div', class_="segment")
 
+            name = ''
+            type = ''
+            ram = ''
+            os = ''
+            chipset = ''
+            camera = ''
+            storage = ''
+            brand = ''
+            
             for segment in segments:
+                
                 content = segment.find('div', class_="content")
+
                 options = content.find_all('div', class_="option")
+
                 for option in options:
                     title = option.find('div', class_="title").get_text().strip()
-                    if title != "Naziv":
-                        continue
+                    if title == "Naziv":
+                        name = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        brand = name.split(' ')[0]
 
-                    name = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                    print(name)
-
+                    if title == "Tip":
+                        type = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        
+                    if title == "RAM":
+                        ram = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        
+                    if title == "Operativni":
+                        os = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        
+                    if title == "Čipset":
+                        chipset = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        
+                    if title == "Glavna":
+                       camera = option.find('span', class_="pr-1 font-extrabold text-pink-600").get_text().strip()
+                        
+                    if title == "Interna":
+                        storage = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                      
+            phone = Phone(name,brand,camera,chipset,os,ram,type,storage)
+            listOfPhones.append(phone)
+            
             driver.close()
             break
         except:
