@@ -52,7 +52,7 @@ for base_link in BASE_LINKS:
         except:
             driver.close()
 
-listOfPhones = []
+list_of_phones = []
 
 for link in links:
     while True:
@@ -60,20 +60,27 @@ for link in links:
             driver = webdriver.Chrome()
             driver.get(url=BASE_URL + link)
             
-            soup = BeautifulSoup(driver.page_source, features="html.parser")
+            soup = BeautifulSoup(driver.page_source, features="html.parser")  
+
+            price = soup.find('div', class_="my-auto flex w-[55px] min-w-[55px] max-w-[55px] flex-shrink-0 flex-grow-0 justify-end py-2 align-middle text-lg font-medium tablet:pr-0 laptop:h-5 laptop:py-0 laptop:text-sm").find('div',class_="tabular-nums tracking-tightest").get_text().strip().split('*')[0]
 
             spec = soup.find('div', id="specification")
 
             segments = spec.find_all('div', class_="segment")
 
             name = ''
-            type = ''
+            screen = ''
             ram = ''
             os = ''
             chipset = ''
             camera = ''
             storage = ''
             brand = ''
+            screen_dimension = ''
+            width = ''
+            height = ''
+            date = ''
+            colors = []
             
             for segment in segments:
                 
@@ -88,10 +95,11 @@ for link in links:
                         brand = name.split(' ')[0]
 
                     if title == "Tip":
-                        type = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        screen = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
                         
                     if title == "RAM":
                         ram = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+
                         
                     if title == "Operativni":
                         os = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
@@ -104,9 +112,26 @@ for link in links:
                         
                     if title == "Interna":
                         storage = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        
+                    if title == "Dimenzije":
+                        screen_dimension = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        
+                    if title == "Status":
+                        date = option.find('div', class_="value").find('span', class_="font-extrabold").get_text().strip()
+
+                    if title == "Boje":
+                        color = option.find('div', class_="value").find_all('div', class_="mr-2 flex")#.get_text().strip()
+                        for c in color :
+                            new_color = c.get_text().strip()
+                            colors.append(new_color)
+                        
+                    if title == "Rezolucija":
+                        resolution = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        width = resolution.split('x')[0]
+                        height = resolution.split('x')[1].split('p')[0]
                       
-            phone = Phone(name,brand,camera,chipset,os,ram,type,storage)
-            listOfPhones.append(phone)
+            phone = Phone(name,brand,camera,chipset,os,ram,screen,storage,screen_dimension,width,height,date,price,colors)
+            list_of_phones.append(phone)
             
             driver.close()
             break
