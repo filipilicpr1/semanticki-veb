@@ -120,7 +120,7 @@ for link in links:
                         date = option.find('div', class_="value").find('span', class_="font-extrabold").get_text().strip()
 
                     if title == "Boje":
-                        color = option.find('div', class_="value").find_all('div', class_="mr-2 flex")#.get_text().strip()
+                        color = option.find('div', class_="value").find_all('div', class_="mr-2 flex")
                         for c in color :
                             new_color = c.get_text().strip()
                             colors.append(new_color)
