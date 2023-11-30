@@ -1726,17 +1726,6 @@
             </Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:comment xml:lang="en">
-            The EAN·UCC-13 code of the given gr:ProductOrService or gr:Offering. This code is now
-            officially called GTIN-13 (Global Trade Identifier Number) or EAN·UCC-13. Former
-            12-digit UPC codes can be converted into EAN·UCC-13 code by simply adding a preceeding
-            zero. Note 1: When using this property for searching by 12-digit UPC codes, you must add
-            a preceeding zero digit. Note 2: As of January 1, 2007, the former ISBN numbers for
-            books etc. have been integrated into the EAN·UCC-13 code. For each old ISBN-10 code,
-            there exists a proper translation into EAN·UCC-13 by adding &quot;978&quot; or &quot;979&quot; as prefix.
-            Since the old ISBN-10 is now deprecated, GoodRelations does not provide a property for
-            ISBNs.
-        </rdfs:comment>
         <rdfs:isDefinedBy rdf:resource="http://purl.org/goodrelations/v1"/>
         <rdfs:label xml:lang="en">has EAN/UCC-13 (0..*)</rdfs:label>
     </DatatypeProperty>
