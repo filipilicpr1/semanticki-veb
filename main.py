@@ -136,6 +136,9 @@ for link in links:
             
             driver.close()
             break
+        except AttributeError:
+            driver.close()
+            break
         except:
             driver.close()
 
