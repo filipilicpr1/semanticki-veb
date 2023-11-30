@@ -14,8 +14,3 @@ class Phone:
         self.width = width
         self.height = height
         self.screen_dimension = screen_dimension
-        
-    def get_desc(self):
-        print(self.name+"\n"+self.brand+"\n"+self.camera+"\n"+self.chipset+"\n"+self.os+"\n"+self.ram+"\n"+self.screen+"\n"+self.storage+"\n"+
-              self.price+"\n"+self.date+"\n"+self.colors+"\n"+self.width+"\n"+self.height+"\n"+self.screen_dimension
-              )
