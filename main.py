@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from Phone import Phone
+from OWLManager import OWLManager
 
 BASE_URL = "https://mobilnisvet.com"
 
@@ -80,7 +81,7 @@ for link in links:
             width = ''
             height = ''
             date = ''
-            colors = []
+            colors = ''
             
             for segment in segments:
                 
@@ -113,16 +114,13 @@ for link in links:
                         storage = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
                         
                     if title == "Dimenzije":
-                        screen_dimension = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
+                        screen_dimension = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip().split(' ')[0]
                         
                     if title == "Status":
                         date = option.find('div', class_="value").find('span', class_="font-extrabold").get_text().strip()
 
-                    if title == "Boje":
-                        color = option.find('div', class_="value").find_all('div', class_="mr-2 flex")
-                        for c in color :
-                            new_color = c.get_text().strip()
-                            colors.append(new_color)
+                    if title == "Paleta":
+                        colors = option.find('div', class_="value").get_text().strip()
                         
                     if title == "Rezolucija":
                         resolution = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
@@ -136,3 +134,10 @@ for link in links:
             break
         except:
             driver.close()
+
+manager = OWLManager("GoodRelations.owl")
+
+for phone in list_of_phones:
+    manager.add_individual_phone(phone)
+
+manager.save_ontology("GoodRelationsPopulated.owl")
