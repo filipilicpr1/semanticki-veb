@@ -64,7 +64,7 @@ for link in links:
             soup = BeautifulSoup(driver.page_source, features="html.parser")  
 
             price = soup.find('div', class_="my-auto flex w-[55px] min-w-[55px] max-w-[55px] flex-shrink-0 flex-grow-0 justify-end py-2 align-middle text-lg font-medium tablet:pr-0 laptop:h-5 laptop:py-0 laptop:text-sm").find('div',class_="tabular-nums tracking-tightest").get_text().strip().split('*')[0]
-
+            
             spec = soup.find('div', id="specification")
 
             segments = spec.find_all('div', class_="segment")
@@ -72,7 +72,6 @@ for link in links:
             name = ''
             screen = ''
             ram = ''
-            os = ''
             chipset = ''
             camera = ''
             storage = ''
@@ -81,6 +80,7 @@ for link in links:
             width = ''
             height = ''
             date = ''
+            os = ''
             colors = ''
             
             for segment in segments:
@@ -117,7 +117,7 @@ for link in links:
                         screen_dimension = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip().split(' ')[0]
                         
                     if title == "Status":
-                        date = option.find('div', class_="value").find('span', class_="font-extrabold").get_text().strip()
+                        date = option.find('div', class_="value").find_all('span', class_="font-extrabold")[-1].get_text().strip()
 
                     if title == "Paleta":
                         colors = option.find('div', class_="value").get_text().strip()
@@ -127,6 +127,10 @@ for link in links:
                         width = resolution.split('x')[0]
                         height = resolution.split('x')[1].split('p')[0]
                       
+            if os == '' :
+                os = soup.find('div',class_="mt-1 flex flex-col py-1 pr-1 text-xs tracking-tight text-gray-700 mobile:text-xs laptop:mt-0").get_text().strip().split(',')[2].split(' ')[1] + " " + soup.find('div',class_="mt-1 flex flex-col py-1 pr-1 text-xs tracking-tight text-gray-700 mobile:text-xs laptop:mt-0").get_text().strip().split(',')[2].split(' ')[2].split('R')[0] 
+
+
             phone = Phone(name,brand,camera,chipset,os,ram,screen,storage,screen_dimension,width,height,date,price,colors)
             list_of_phones.append(phone)
             
