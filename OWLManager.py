@@ -69,7 +69,7 @@ class OWLManager:
         return None
     
     def get_individual(self, name):
-        name = name.lower().replace(" ", "_")
+        name = name.lower().strip().replace(" ", "_")
         for subj, obj in self.graph.subject_objects(predicate=RDF.type):
             if name in subj and subj.split('#')[-1] in name and constants.NAMED_INDIVIDUAL in obj:
                 return subj

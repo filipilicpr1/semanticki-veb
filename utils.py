@@ -27,5 +27,6 @@ def prepare_camera(camera):
 # input Samsung Exynos 990
 # output Exynos_990
 def prepare_chipset(chipset):
-    chipset_parts = chipset.split(' ')
-    return reduce(lambda a, b: a.encode("ascii", "ignore").decode() + '_' + b.encode("ascii", "ignore").decode(), chipset_parts[1:])
+    chipset_parts = chipset.strip().split(' ')
+    prepared_chipset = reduce(lambda a, b: a + '_' + b, chipset_parts[1:])
+    return prepared_chipset[1:] if prepared_chipset.startswith('_') else prepared_chipset
