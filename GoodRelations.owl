@@ -470,30 +470,6 @@
     
 
 
-    <!-- http://purl.org/goodrelations/v1#hasBrand -->
-
-    <ObjectProperty rdf:about="http://purl.org/goodrelations/v1#hasBrand">
-        <rdfs:domain>
-            <Class>
-                <unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://purl.org/goodrelations/v1#BusinessEntity"/>
-                    <rdf:Description rdf:about="http://purl.org/goodrelations/v1#ProductOrService"/>
-                    <rdf:Description rdf:about="http://schema.org/Organization"/>
-                    <rdf:Description rdf:about="http://schema.org/Product"/>
-                </unionOf>
-            </Class>
-        </rdfs:domain>
-        <rdfs:range rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
-        <rdfs:comment xml:lang="en">
-            This specifies the brand or brands (gr:Brand) associated with a gr:ProductOrService, or
-            the brand or brands maintained by a gr:BusinessEntity.
-        </rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="http://purl.org/goodrelations/v1"/>
-        <rdfs:label xml:lang="en">has brand (0..*)</rdfs:label>
-    </ObjectProperty>
-    
-
-
     <!-- http://purl.org/goodrelations/v1#hasBusinessFunction -->
 
     <ObjectProperty rdf:about="http://purl.org/goodrelations/v1#hasBusinessFunction">
@@ -11435,6 +11411,14 @@
     
 
 
+    <!-- http://www.co-ode.org/ontologies/ont.owl#android_11_go -->
+
+    <NamedIndividual rdf:about="http://www.co-ode.org/ontologies/ont.owl#android_11_go">
+        <rdf:type rdf:resource="http://www.co-ode.org/ontologies/ont.owl#Android"/>
+    </NamedIndividual>
+    
+
+
     <!-- http://www.co-ode.org/ontologies/ont.owl#android_11_open_source -->
 
     <NamedIndividual rdf:about="http://www.co-ode.org/ontologies/ont.owl#android_11_open_source">
@@ -11446,6 +11430,14 @@
     <!-- http://www.co-ode.org/ontologies/ont.owl#android_12 -->
 
     <NamedIndividual rdf:about="http://www.co-ode.org/ontologies/ont.owl#android_12">
+        <rdf:type rdf:resource="http://www.co-ode.org/ontologies/ont.owl#Android"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.co-ode.org/ontologies/ont.owl#android_12_go -->
+
+    <NamedIndividual rdf:about="http://www.co-ode.org/ontologies/ont.owl#android_12_go">
         <rdf:type rdf:resource="http://www.co-ode.org/ontologies/ont.owl#Android"/>
     </NamedIndividual>
     

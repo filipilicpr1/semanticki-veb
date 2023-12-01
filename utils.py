@@ -10,7 +10,7 @@ def prepare_date(date):
     month = constants.DATES_DICTIONARY[date_parts[1]]
     year = date_parts[-1].split('.')[0]
 
-    return year + '-' + month + '-' + day
+    return year + '-' + month + '-' + day + 'T00:00:00'
 
 # input storage format 8GB
 # output storage format 8_GB
