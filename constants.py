@@ -11,6 +11,8 @@ HAS_WIDTH = "hasWidth"
 HAS_PRICE = "hasPrice"
 HAS_SALE_DATE = "hasSaleDate"
 HAS_SCREEN_SIZE = "hasScreenSize"
+HAS_MPX = "hasMpx"
+HAS_MEMORY = "hasMemory"
 
 OBJECT_PROPERTIES = [
     HAS_BRAND, 
@@ -25,7 +27,9 @@ OBJECT_PROPERTIES = [
     HAS_WIDTH, 
     HAS_PRICE, 
     HAS_SALE_DATE, 
-    HAS_SCREEN_SIZE
+    HAS_SCREEN_SIZE,
+    HAS_MPX,
+    HAS_MEMORY
 ]
 
 ONTOLOGY_NAMESPACE = "http://www.co-ode.org/ontologies/ont.owl#"
