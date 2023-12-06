@@ -42,7 +42,6 @@ def get_list_of_phones_from_sparql_query(result) :
     phones = []
     for row in result:
         name = row['name'].split('#')[-1]
-        print(name)
         brand = row['brand'].split('#')[-1]
         camera_mpx = row['camera'].split('#')[-1]
         ram = row['ram'].split('#')[-1]

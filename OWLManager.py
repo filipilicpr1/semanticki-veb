@@ -68,6 +68,15 @@ class OWLManager:
         print("Error finding smart phone class for name: " + name)
         return None
     
+    def get_chipset_class(self, chipset):
+        name = chipset.strip().lower()
+        for subj, obj in self.graph.subject_objects(predicate=RDFS.subClassOf):
+            if name in subj.lower() and subj.lower().split('#')[-1] in name and constants.ONTOLOGY_NAMESPACE + constants.CHIPSET in obj:
+                return subj
+
+        print("Error finding chipset class with name: " + name)
+        return None
+
     def get_individual(self, name):
         name = name.lower().strip().replace(" ", "_")
         for subj, obj in self.graph.subject_objects(predicate=RDF.type):

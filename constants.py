@@ -36,6 +36,8 @@ ONTOLOGY_NAMESPACE = "http://www.co-ode.org/ontologies/ont.owl#"
 
 SMART_PHONE = "SmartPhone"
 
+CHIPSET = "Chipset"
+
 NAMED_INDIVIDUAL = "http://www.w3.org/2002/07/owl#NamedIndividual"
 
 DATES_DICTIONARY = {
