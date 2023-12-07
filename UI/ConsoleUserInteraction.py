@@ -51,3 +51,4 @@ class ConsoleUserInterface:
     def show_options(self, options) :
         for key, values in options.items() :
             print(str(key) + '. ' + values.description())
+        print("0. Exit")

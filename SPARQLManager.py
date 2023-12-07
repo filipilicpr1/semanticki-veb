@@ -12,7 +12,7 @@ class SPARQLManager:
     def get_phones_by_brand_date_price(self, brand, date, max_price):
         brand_individual = self.owl_manager.get_individual(brand)
         if not brand_individual:
-            return []
+            raise Exception("Error finding brand with name: " + brand)
         
         date_literal = Literal(date, datatype=XSD.dateTime)
         max_price_literal = Literal(max_price)
@@ -41,7 +41,7 @@ class SPARQLManager:
         ram_literal = Literal(ram)
         storage_literal = Literal(storage)
         if not chipset_class:
-            return []
+            raise Exception("Error finding chipset class with name: " + chipset)
         
         query = sparql_query_select_part + """
                 where {{ ?name ?hasChipset ?chipset . 
@@ -70,11 +70,11 @@ class SPARQLManager:
     def get_phones_by_brand_os(self, brand, os):
         brand_individual = self.owl_manager.get_individual(brand)
         if not brand_individual:
-            return []
+            raise Exception("Error finding brand with name: " + brand)
         
         os_individual = self.owl_manager.get_individual(os)
         if not os_individual:
-            return []
+            raise Exception("Error finding OS with name: " + os)
         
         query = sparql_query_select_part + """
                 where {{ ?name ?hasBrand ?brand . 
@@ -94,7 +94,7 @@ class SPARQLManager:
     def get_phone_with_best_camera_by_brand_date_price(self, brand, date, max_price):
         brand_individual = self.owl_manager.get_individual(brand)
         if not brand_individual:
-            return []
+            raise Exception("Error finding brand with name: " + brand)
         
         date_literal = Literal(date, datatype=XSD.dateTime)
         max_price_literal = Literal(max_price)
@@ -181,7 +181,7 @@ class SPARQLManager:
         phone_uri = self.owl_manager.get_smart_phone_class(model_of_phone)
         
         if phone_uri is None :
-            return []
+            raise Exception("Error finding phone model with name: " + model)
         
         query =  """
                 SELECT ?color
@@ -201,7 +201,7 @@ class SPARQLManager:
         oldest_date_for_phone = Literal(oldest_date, datatype=XSD.dateTime)
         brand_of_phone = self.owl_manager.get_individual(brand)
         if brand_of_phone is None :
-            return []
+            raise Exception("Error finding brand with name: " + brand)
         
         query = sparql_query_select_part + """
                 where {{    ?name ?hasBrand ?brand . 
@@ -217,7 +217,7 @@ class SPARQLManager:
         init_bindings['oldestDate'] = oldest_date_for_phone
         result = self.graph.query(query, initBindings = init_bindings)
         
-        return get_list_of_phones_from_sparql_query(result)[0] if get_list_of_phones_from_sparql_query(result)[0] is not None else None
+        return get_list_of_phones_from_sparql_query(result)[0] if len(result) > 0 else None
     
     def get_phone_with_specified_camera_with_min_price_but_younger_than(self, oldest_date, mpx):
         oldest_date_for_phone = Literal(oldest_date, datatype=XSD.dateTime)
@@ -237,5 +237,5 @@ class SPARQLManager:
         init_bindings['oldestDate'] = oldest_date_for_phone
         result = self.graph.query(query, initBindings = init_bindings)
         
-        return get_list_of_phones_from_sparql_query(result)[0] if get_list_of_phones_from_sparql_query(result)[0] is not None else None
+        return get_list_of_phones_from_sparql_query(result)[0] if len(result) > 0 else None
     
