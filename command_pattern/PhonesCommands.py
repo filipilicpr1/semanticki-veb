@@ -8,7 +8,7 @@ class PhoneByBrandDatePrice(Command) :
         phones = self.sparql_manager.get_phones_by_brand_date_price(brand, date, price)
         
         if len(phones) == 0 : 
-            self.user_interface.show("Phone with that barnd and price younger than "+ date +" does not exists") 
+            self.user_interface.show("Phone with that brand and price younger than "+ date.strftime("%d.%m.%Y") +" does not exists") 
             return
         
         for p in phones : self.user_interface.show(p.create_table_view())
@@ -124,7 +124,7 @@ class PhoneWithMinPriceForBrand(Command):
         phone = self.sparql_manager.get_phone_with_min_price_for_brand(brand,date)
         
         if phone is None:
-            self.user_interface.show("Phone with that color does not exists")
+            self.user_interface.show("Phone with that brand does not exists")
             return
         
         self.user_interface.show(phone.create_table_view())
@@ -139,13 +139,10 @@ class CheapestPhoneWithCameraAndYoungerThanDate(Command):
         phone = self.sparql_manager.get_phone_with_specified_camera_with_min_price_but_younger_than(date,camera)
         
         if phone is None:
-            self.user_interface.show("Phone with that color does not exists")
+            self.user_interface.show("Phone with that camera and date does not exists")
             return
         
         self.user_interface.show(phone.create_table_view())
         
     def description(self):
         return "Search phones with specified camera younger than specified date"
-
-        
-        
