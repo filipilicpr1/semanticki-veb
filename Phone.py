@@ -49,7 +49,7 @@ class MobilePhone:
         table_view_phone.add_row('PRICE', self.price.replace('_',' ')+" €")
         table_view_phone.add_row('DATE', datetime.fromisoformat(self.date).strftime("%d.%m.%Y"))
         table_view_phone.add_row('COLORS', self.colors)
-        table_view_phone.add_row('RESOLUTION',self.width + 'x' + self.height + ' px')
-        table_view_phone.add_row('SCREEN',self.screen_dimension + ' inches')
+        table_view_phone.add_row('RESOLUTION', self.width + 'x' + self.height + ' px')
+        table_view_phone.add_row('SCREEN', self.screen_dimension + ' inches')
         
         return table_view_phone.get_string()
