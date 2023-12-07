@@ -9,11 +9,11 @@ class Menu:
             option, success = self.user_interface.get_option(input())
 
             if not success or option < 0 or option > 10:
-                self.user_interface("Unknown option, try again\n")
+                self.user_interface.show("Unknown option, try again\n")
                 continue
 
             if option == 0:
-                self.user_interface("Goodbye")
+                self.user_interface.show("Goodbye")
                 break
 
             option_for_execute = self.handle_option(option, dict_options)
