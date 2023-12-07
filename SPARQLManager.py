@@ -146,3 +146,96 @@ class SPARQLManager:
 
         result = self.graph.query(query, initBindings = init_bindings)
         return get_list_of_phones_from_sparql_query(result)
+    
+    def get_all_phones_with_camera(self, camera):
+        mpx = Literal(camera, datatype = XSD.double)
+        query = sparql_query_select_part + """
+                where {{ ?name ?hasCamera ?camera . ?camera ?hasMpx ?mpx
+                    """ + sparql_query_optional_part + """
+                }}
+                """
+
+        init_bindings = create_init_bindings_for_sparql_query(self)
+        init_bindings['mpx'] = mpx
+        result = self.graph.query(query, initBindings = init_bindings)
+        
+        return get_list_of_phones_from_sparql_query(result)
+
+    def get_all_phones_with_color(self, color):
+        color_of_phone = Literal(color, datatype = XSD.string)
+        query = sparql_query_select_part + """
+                where {{ ?name ?hasColors ?colors .
+                        FILTER(CONTAINS(LCASE(?colors), LCASE(?colorOfPhone)))
+                    """ + sparql_query_optional_part + """ 
+                }}
+                """
+        
+        init_bindings = create_init_bindings_for_sparql_query(self)
+        init_bindings['colorOfPhone'] = color_of_phone
+        result = self.graph.query(query, initBindings = init_bindings)
+        
+        return get_list_of_phones_from_sparql_query(result)
+    
+    def get_color_for_specific_phone_model(self, model):
+        model_of_phone = Literal(model, datatype=XSD.string)
+        phone_uri = self.owl_manager.get_smart_phone_class(model_of_phone)
+        
+        if phone_uri is None :
+            return []
+        
+        query =  """
+                SELECT ?color
+                    WHERE {{
+                        ?phoneUri ?hasColors ?color .
+                    }}
+                """
+        result = self.graph.query(query, initBindings = {
+            'hasColors' : self.object_properties[constants.HAS_COLORS],
+            'phoneUri' : phone_uri
+        })
+        
+        colors = ([c for row in result for c in row['color'].split(',')])
+        return colors
+    
+    def get_phone_with_min_price_for_brand(self, brand, oldest_date):
+        oldest_date_for_phone = Literal(oldest_date, datatype=XSD.dateTime)
+        brand_of_phone = self.owl_manager.get_individual(brand)
+        if brand_of_phone is None :
+            return []
+        
+        query = sparql_query_select_part + """
+                where {{    ?name ?hasBrand ?brand . 
+                            ?name ?hasDate ?date .
+                            filter (?date >= ?oldestDate)
+                    """ + sparql_query_optional_part + """
+                }}
+                order by asc(?price)
+                """
+        
+        init_bindings = create_init_bindings_for_sparql_query(self)
+        init_bindings['brand'] = brand_of_phone
+        init_bindings['oldestDate'] = oldest_date_for_phone
+        result = self.graph.query(query, initBindings = init_bindings)
+        
+        return get_list_of_phones_from_sparql_query(result)[0] if get_list_of_phones_from_sparql_query(result)[0] is not None else None
+    
+    def get_phone_with_specified_camera_with_min_price_but_younger_than(self, oldest_date, mpx):
+        oldest_date_for_phone = Literal(oldest_date, datatype=XSD.dateTime)
+        mpx = Literal(mpx,datatype=XSD.double)
+        query = sparql_query_select_part + """
+                where {{ ?name ?hasCamera ?camera . 
+                        ?camera ?hasMpx ?mpx .
+                        ?name ?hasDate ?date .
+                        filter (?date >= ?oldestDate)
+                    """ + sparql_query_optional_part + """
+                }}
+                order by asc(?price)
+                """
+        
+        init_bindings = create_init_bindings_for_sparql_query(self)
+        init_bindings['mpx'] = mpx
+        init_bindings['oldestDate'] = oldest_date_for_phone
+        result = self.graph.query(query, initBindings = init_bindings)
+        
+        return get_list_of_phones_from_sparql_query(result)[0] if get_list_of_phones_from_sparql_query(result)[0] is not None else None
+    

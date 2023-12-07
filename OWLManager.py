@@ -58,14 +58,13 @@ class OWLManager:
             self.graph.add((individual_name, self.object_properties[constants.HAS_COLORS], Literal(phone.colors)))
             self.graph.add((individual_name, self.object_properties[constants.HAS_SALE_DATE], Literal(phone.date, datatype=XSD.dateTime)))
         except:
-            print("Error creating individual with name: " + phone.name)
+            raise ValueError("Error creating individual with name: " + phone.name)
 
     def get_smart_phone_class(self, name):
         for smart_phone in self.smart_phones:
-            if smart_phone.replace("_", " ") in name:
+            if smart_phone.replace("_", " ").lower() in name.lower():
                 return URIRef(self.ontology_namespace + smart_phone)
             
-        print("Error finding smart phone class for name: " + name)
         return None
     
     def get_chipset_class(self, chipset):
@@ -74,7 +73,6 @@ class OWLManager:
             if name in subj.lower() and subj.lower().split('#')[-1] in name and constants.ONTOLOGY_NAMESPACE + constants.CHIPSET in obj:
                 return subj
 
-        print("Error finding chipset class with name: " + name)
         return None
 
     def get_individual(self, name):
@@ -83,7 +81,6 @@ class OWLManager:
             if name in subj and subj.split('#')[-1] in name and constants.NAMED_INDIVIDUAL in obj:
                 return subj
             
-        print("Error finding individual with name: " + name)
         return None
     
     def save_ontology(self, file_name):
