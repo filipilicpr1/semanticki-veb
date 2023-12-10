@@ -1,4 +1,7 @@
 from command_pattern.ICommand import Command
+from langchain.chains import GraphSparqlQAChain
+from langchain.chat_models import ChatOpenAI
+from langchain.graphs import RdfGraph
 
 class PhoneByBrandDatePrice(Command) :
     def execute(self):
@@ -146,3 +149,35 @@ class CheapestPhoneWithCameraAndYoungerThanDate(Command):
         
     def description(self):
         return "Search phones with specified camera younger than specified date"
+    
+class NaturalLanguageQuery(Command):
+    def __init__(self, user_interface, sparql_manager) -> None:
+        super().__init__(user_interface, sparql_manager)
+
+        self.graph = RdfGraph(
+            source_file="GoodRelationsPopulatedLite.ttl",
+            standard="owl",
+            serialization="ttl",
+            local_copy="GoodRelationsPopulatedLite.ttl",
+        )
+        self.graph.load_schema()
+        self.chain = GraphSparqlQAChain.from_llm(
+            ChatOpenAI(model="gpt-3.5-turbo-16k", temperature=0), graph=self.graph, verbose=True,
+        )
+
+        self.context = """ Use following rules:
+                    Don't exclude any results, I want the full list. 
+                    Phone must be a rdfs:subClassOf http://www.co-ode.org/ontologies/ont.owl#SmartPhone. 
+                    For hasBrand use http://www.co-ode.org/ontologies/ont.owl#hasBrand. 
+                    Brand name in query must be written in all lowercase.
+                    Brand name represents object for hasBrand. 
+                    For hasPrice use http://www.co-ode.org/ontologies/ont.owl#hasPrice.
+                    Camera Mpx is type of xsd:double.
+                    All prices are in euros."""
+
+    def execute(self):
+        query = self.user_interface.get_string_input("Enter query: ")
+        print(self.chain.run(query + self.context))
+        
+    def description(self):
+        return "Write query in natural language (experimental)"
