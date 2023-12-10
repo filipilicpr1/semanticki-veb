@@ -9,7 +9,7 @@ class Menu:
                 dict_options = self.show_menu()
                 option, success = self.user_interface.get_option(input())
 
-                if not success or option < 0 or option > 10:
+                if not success or option < 0 or option > 11:
                     self.user_interface.show("Unknown option, try again\n")
                     continue
 
