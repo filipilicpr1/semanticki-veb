@@ -1,5 +1,5 @@
 from rdflib import Graph, RDFS, RDF, XSD, URIRef, Literal
-from Phone import Phone
+from utilities.Phone import Phone
 import constants
 
 class OWLManager:
@@ -8,10 +8,10 @@ class OWLManager:
         self.graph.parse(file_name)
         self.ontology_namespace = constants.ONTOLOGY_NAMESPACE
         self.named_individual = URIRef(constants.NAMED_INDIVIDUAL)
-        self.object_properties = self.get_object_properties()
-        self.smart_phones = self.get_smart_phones()
+        self.object_properties = self.__get_object_properties()
+        self.smart_phones = self.__get_smart_phones()
 
-    def get_object_properties(self):
+    def __get_object_properties(self):
         object_properties = dict()
 
         for subj in self.graph.subjects():
@@ -25,7 +25,7 @@ class OWLManager:
 
         return object_properties
     
-    def get_smart_phones(self):
+    def __get_smart_phones(self):
         smart_phones = []
 
         for subj, obj in self.graph.subject_objects(predicate=RDFS.subClassOf):

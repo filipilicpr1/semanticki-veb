@@ -1,4 +1,4 @@
-from Phone import MobilePhone
+from utilities.Phone import MobilePhone
 import constants
 
 sparql_query_select_part = """select ?name ?brand ?camera ?ram ?chipset ?os ?screen ?storage ?price ?date ?colors ?width ?height ?screen_dimension"""

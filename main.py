@@ -1,150 +1,31 @@
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from Phone import Phone
-from OWLManager import OWLManager
+from ontology_helpers.OWLManager import OWLManager
+from ontology_helpers.SPARQLManager import SPARQLManager
+from UI.Menu import Menu
+from UI.ConsoleUserInteraction import ConsoleUserInterface
+from command_pattern.PhonesCommands import PhoneByBrandDatePrice, PhoneByBrandOS, PhoneByCamera, PhoneByChipsetRamStorage,PhoneByScreenSizeAndResolution, PhonesByColor, PhoneWithMinPriceForBrand, CheapestPhoneWithBestCameraByBrandDate, CheapestPhoneWithCameraAndYoungerThanDate, ColorsForPhoneModel, NaturalLanguageQuery
+from dotenv import load_dotenv
 
-BASE_URL = "https://mobilnisvet.com"
+load_dotenv()
 
-BASE_LINKS = [
-    "/mobilni-proizvodjac/Apple/22/2",
-    "/mobilni-proizvodjac/Google/71/2",
-    "/mobilni-proizvodjac/Huawei/35/2",
-    "/mobilni-proizvodjac/OnePlus/55/2",
-    "/mobilni-proizvodjac/Poco/84/2",
-    "/mobilni-proizvodjac/Samsung/6/2",
-    "/mobilni-proizvodjac/Xiaomi/52/2"
-]
+user_interface = ConsoleUserInterface()
+sparql_manager = SPARQLManager(owl_manager=OWLManager("ontology/GoodRelationsPopulated.owl"))
 
-def populate_links(top_level, links):
-    for child in top_level.findChildren():
-        text = child.get_text().strip()
-        if child.name == "div" and (text == "2019." or text == "2018."):
-            break
+phones_by_brand_date_price = PhoneByBrandDatePrice(user_interface, sparql_manager)
+phones_by_brand_os = PhoneByBrandOS(user_interface, sparql_manager)
+phones_by_camera = PhoneByCamera(user_interface, sparql_manager)
+phones_by_chipset_ram_storage = PhoneByChipsetRamStorage(user_interface, sparql_manager)
+phones_by_screen_size_resolution = PhoneByScreenSizeAndResolution(user_interface, sparql_manager)
+phones_by_color = PhonesByColor(user_interface, sparql_manager)
+phones_with_min_price_for_brand = PhoneWithMinPriceForBrand(user_interface, sparql_manager)
+phone_with_best_camera_by_brand_cheapest_one = CheapestPhoneWithBestCameraByBrandDate(user_interface, sparql_manager)
+cheapest_phone_with_camera_younger_than = CheapestPhoneWithCameraAndYoungerThanDate(user_interface, sparql_manager)
+all_colors_for_phone_model = ColorsForPhoneModel(user_interface, sparql_manager)
+natural_language_query = NaturalLanguageQuery(user_interface, sparql_manager)
 
-        if child.name != "a":
-            continue
+commands = [phones_by_brand_date_price, phones_by_brand_os, phones_by_camera, phones_by_chipset_ram_storage, phones_by_screen_size_resolution, phones_by_color, 
+            phones_with_min_price_for_brand, phone_with_best_camera_by_brand_cheapest_one, cheapest_phone_with_camera_younger_than, all_colors_for_phone_model,
+            natural_language_query]
 
-        link = next(iter(child.get_attribute_list(key="href")), None)
-        if link is None:
-            continue
+menu = Menu(user_interface, commands)
 
-        links.append(link)
-
-options = webdriver.ChromeOptions()
-options.add_argument("headless")
-
-links = []
-
-for base_link in BASE_LINKS:
-    while True:
-        try:
-            driver = webdriver.Chrome(options=options)
-            driver.get(url=BASE_URL + base_link)
-
-            soup = BeautifulSoup(driver.page_source, features="html.parser")
-            top_level = soup.find(
-                'div', class_="my-3 flex justify-center border border-b border-green-200 bg-green-50 py-3 text-center text-xl font-black text-green-600"
-                ).find_next_sibling()
-
-            populate_links(top_level, links)
-
-            driver.close()
-            break
-        except:
-            driver.close()
-
-list_of_phones = []
-
-for link in links:
-    while True:
-        try:
-            driver = webdriver.Chrome()
-            driver.get(url=BASE_URL + link)
-            
-            soup = BeautifulSoup(driver.page_source, features="html.parser")  
-
-            price = soup.find('div', class_="my-auto flex w-[55px] min-w-[55px] max-w-[55px] flex-shrink-0 flex-grow-0 justify-end py-2 align-middle text-lg font-medium tablet:pr-0 laptop:h-5 laptop:py-0 laptop:text-sm").find('div',class_="tabular-nums tracking-tightest").get_text().strip().split('*')[0]
-            
-            spec = soup.find('div', id="specification")
-
-            segments = spec.find_all('div', class_="segment")
-
-            name = ''
-            screen = ''
-            ram = ''
-            chipset = ''
-            camera = ''
-            storage = ''
-            brand = ''
-            screen_dimension = ''
-            width = ''
-            height = ''
-            date = ''
-            os = ''
-            colors = ''
-            
-            for segment in segments:
-                
-                content = segment.find('div', class_="content")
-
-                options = content.find_all('div', class_="option")
-
-                for option in options:
-                    title = option.find('div', class_="title").get_text().strip()
-                    if title == "Naziv":
-                        name = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                        brand = name.split(' ')[0]
-
-                    if title == "Tip":
-                        screen = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                        
-                    if title == "RAM":
-                        ram = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                        
-                    if title == "Operativni":
-                        os = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                        
-                    if title == "Čipset":
-                        chipset = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                        
-                    if title == "Glavna":
-                       camera = option.find('span', class_="pr-1 font-extrabold text-pink-600").get_text().strip()
-                        
-                    if title == "Interna":
-                        storage = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                        
-                    if title == "Dimenzije":
-                        screen_dimension = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip().split(' ')[0]
-                        
-                    if title == "Status":
-                        date = option.find('div', class_="value").find_all('span', class_="font-extrabold")[-1].get_text().strip()
-
-                    if title == "Paleta":
-                        colors = option.find('div', class_="value").get_text().strip()
-                        
-                    if title == "Rezolucija":
-                        resolution = option.find('div', class_="value").find('span', class_="font-bold").get_text().strip()
-                        width = resolution.split('x')[0]
-                        height = resolution.split('x')[1].split('p')[0]
-                      
-            if os == '' :
-                os = soup.find('div',class_="mt-1 flex flex-col py-1 pr-1 text-xs tracking-tight text-gray-700 mobile:text-xs laptop:mt-0").get_text().strip().split(',')[2].split(' ')[1] + " " + soup.find('div',class_="mt-1 flex flex-col py-1 pr-1 text-xs tracking-tight text-gray-700 mobile:text-xs laptop:mt-0").get_text().strip().split(',')[2].split(' ')[2].split('R')[0] 
-
-
-            phone = Phone(name,brand,camera,chipset,os,ram,screen,storage,screen_dimension,width,height,date,price,colors)
-            list_of_phones.append(phone)
-            
-            driver.close()
-            break
-        except AttributeError:
-            driver.close()
-            break
-        except:
-            driver.close()
-
-manager = OWLManager("GoodRelations.owl")
-
-for phone in list_of_phones:
-    manager.add_individual_phone(phone)
-
-manager.save_ontology("GoodRelationsPopulated.owl")
+menu.run()
