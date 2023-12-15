@@ -1,6 +1,6 @@
 from rdflib import XSD, Literal, RDF
-from OWLManager import OWLManager
-from sparql_query_helper import sparql_query_select_part, sparql_query_optional_part, create_init_bindings_for_sparql_query, get_list_of_phones_from_sparql_query
+from .OWLManager import OWLManager
+from .sparql_query_helper import sparql_query_select_part, sparql_query_optional_part, create_init_bindings_for_sparql_query, get_list_of_phones_from_sparql_query
 import constants
 
 class SPARQLManager:

@@ -1,5 +1,5 @@
-import utils
-from Table import Table
+from utilities import utils
+from .Table import Table
 from datetime import datetime
 
 class Phone:

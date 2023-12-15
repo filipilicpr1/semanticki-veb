@@ -155,10 +155,10 @@ class NaturalLanguageQuery(Command):
         super().__init__(user_interface, sparql_manager)
 
         self.graph = RdfGraph(
-            source_file="GoodRelationsPopulatedLite.ttl",
+            source_file="ontology/GoodRelationsPopulatedLite.ttl",
             standard="owl",
             serialization="ttl",
-            local_copy="GoodRelationsPopulatedLite.ttl",
+            local_copy="ontology/GoodRelationsPopulatedLite.ttl",
         )
         self.graph.load_schema()
         self.chain = GraphSparqlQAChain.from_llm(
@@ -167,7 +167,7 @@ class NaturalLanguageQuery(Command):
 
         self.context = """ Use following rules:
                     Don't exclude any results, I want the full list. 
-                    Phone must be a rdfs:subClassOf http://www.co-ode.org/ontologies/ont.owl#SmartPhone. 
+                    Phone must be a rdf:type or rdfs:subClassOf http://www.co-ode.org/ontologies/ont.owl#SmartPhone. 
                     For hasBrand use http://www.co-ode.org/ontologies/ont.owl#hasBrand. 
                     Brand name in query must be written in all lowercase.
                     Brand name represents object for hasBrand. 
