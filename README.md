@@ -1,5 +1,7 @@
 # Chatbot for suggesting smart phones
 
+[![rs](https://img.shields.io/badge/lang-rs-blue.svg)](./README.rs.md)
+
 ## Introduction
 
 The popularity of smart phones is constantly on the rise, and the number of available smart phone models keeps increasing day by day. In a way this is good, because it allows buyers to have more options when choosing a smart phone for themselves. There are many different websites that allow users to search for smart phones, and users can, most of the time, find a smart phone that fits their needs. However, having more options can be confusing for users who don't exactly know what they are looking for. Usually, such users end up buying a phone which doesn't suit them perfectly, and end up replacing it relatively quickly. To avoid this from happening, users can try to learn more about smart phones, so they know what exactly is important for them, or there could be some kind of an assistant helping users make the right decision while purchasing a smart phone.
